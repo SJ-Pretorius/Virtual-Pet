@@ -34,7 +34,7 @@ public class MainGui {
         JMenu view = new JMenu("View");
         JMenuItem viewOnDesktop = new JMenuItem("View On Desktop");
         JMenuItem saveData = new JMenuItem("Save Data");
-        JMenuItem newPet = new JMenuItem("New Pet");
+        JMenuItem newPet = new JMenuItem("Add Pet");
         JMenuItem deletePet = new JMenuItem("Kill Pet");
         JMenuItem credits = new JMenuItem("Credits");
         data.add(saveData);
