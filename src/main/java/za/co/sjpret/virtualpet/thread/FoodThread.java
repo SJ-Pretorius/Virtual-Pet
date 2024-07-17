@@ -1,15 +1,15 @@
 package za.co.sjpret.virtualpet.thread;
 
-import za.co.sjpret.virtualpet.gui.Gui;
+import za.co.sjpret.virtualpet.gui.MainGui;
 import za.co.sjpret.virtualpet.pet.Pet;
 
-public class Life extends Thread {
+public class FoodThread extends Thread {
     private final Pet pet;
-    private final Gui gui;
+    private final MainGui mainGui;
 
-    public Life(Pet pet, Gui gui) {
+    public FoodThread(Pet pet, MainGui mainGui) {
         this.pet = pet;
-        this.gui = gui;
+        this.mainGui = mainGui;
         start();
     }
 
@@ -19,7 +19,7 @@ public class Life extends Thread {
             while (true) {
                 pet.decrementFood((byte) 1);
                 sleep(500);
-                gui.update();
+                mainGui.update();
             }
         } catch (Exception e) {}
 

@@ -11,6 +11,11 @@
       </list>
     </option>
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="za.co.sjpret.virtualpet.controller.Controller foodThread" />
+    </entry_points>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">

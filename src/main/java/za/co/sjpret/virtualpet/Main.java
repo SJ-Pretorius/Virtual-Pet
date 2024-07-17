@@ -1,20 +1,9 @@
-package za.co.sjpret;
+package za.co.sjpret.virtualpet;
 
-import za.co.sjpret.pet.Pet;
-import za.co.sjpret.thread.Life;
-
-import javax.swing.*;
+import za.co.sjpret.virtualpet.controller.Controller;
 
 public class Main {
-    public static Pet pet;
-
     public static void main(String[] args) {
-        String petName = "";
-        while (petName.isEmpty()) {
-            petName = JOptionPane.showInputDialog(null,"Please enter a pet name: ", "Virtual Pet", JOptionPane.QUESTION_MESSAGE);
-        }
-        pet = new Pet(petName);
-        Life life = new Life();
-        life.start();
+        new Controller();
     }
 }
