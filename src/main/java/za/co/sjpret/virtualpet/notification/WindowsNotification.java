@@ -1,22 +1,23 @@
 package za.co.sjpret.virtualpet.notification;
 
-import za.co.sjpret.virtualpet.gui.MainGui;
+import za.co.sjpret.virtualpet.controller.PetController;
 
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 
 public class WindowsNotification {
     private TrayIcon trayIcon;
-    private final MainGui gui;
+    private final PetController petController;
 
-    public WindowsNotification(MainGui gui, String petName) {
-        this.gui = gui;
+    public WindowsNotification(PetController petController) {
+        this.petController = petController;
         if (SystemTray.isSupported()) {
-            setupTray(petName);
+            setupTray(petController.getPet().getName());
         } else {
             System.err.println("System tray not supported!");
         }
     }
+
     private void setupTray(String petName) {
         try {
             SystemTray tray = SystemTray.getSystemTray();
@@ -25,7 +26,8 @@ public class WindowsNotification {
             trayIcon.setImageAutoSize(true);
             trayIcon.setToolTip("Virtual Pet: " + petName);
             tray.add(trayIcon);
-            trayIcon.addActionListener(e -> gui.showGui());
+            trayIcon.addActionListener(e -> petController.getMainGui().showGui());
+            showNotification("Use the tray icon to access your pet at any time.");
         } catch (AWTException e) {
             e.printStackTrace();
         }

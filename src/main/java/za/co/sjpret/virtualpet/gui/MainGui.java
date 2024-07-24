@@ -2,8 +2,8 @@ package za.co.sjpret.virtualpet.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import za.co.sjpret.virtualpet.controller.Controller;
-import za.co.sjpret.virtualpet.pet.Pet;
+import za.co.sjpret.virtualpet.controller.MainController;
+import za.co.sjpret.virtualpet.controller.PetController;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,11 +11,11 @@ import java.awt.*;
 
 //TODO Implement Animal Status
 //TODO Picture of a kitten
-//TODO Windows Notification is window is closed.
+//TODO Windows Notification is window is closed or option for save and exit or minimise.
+//TODO View on Desktop
 
 public class MainGui {
-    private final Pet pet;
-    private JFrame frame;
+    private final JFrame frame;
     private JPanel mainPanel;
     private JButton feed;
     private JButton exit;
@@ -24,9 +24,10 @@ public class MainGui {
     private JLabel age;
     private JLabel health;
     private JLabel food;
+    private final PetController petController;
 
-    public MainGui(Pet pet, Controller controller) {
-        this.pet = pet;
+    public MainGui(PetController petController) {
+        this.petController = petController;
         JMenuBar menuBar = new JMenuBar();
         JMenu about = new JMenu("About");
         JMenu manage = new JMenu("Manage");
@@ -47,7 +48,7 @@ public class MainGui {
         menuBar.add(data);
         menuBar.add(about);
         menuBarPanel.add(menuBar);
-        name.setText("Name: " + pet.getName());
+        name.setText("Name: " + petController.getPet().getName());
         frame = new JFrame();
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -58,20 +59,20 @@ public class MainGui {
         update();
         frame.setVisible(true);
         credits.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Created by SJ Pretorius", "Credits", JOptionPane.PLAIN_MESSAGE));
-        feed.addActionListener(e -> pet.incrementFood((byte) 10));
+        feed.addActionListener(e -> petController.getPet().incrementFood((byte) 10));
         exit.addActionListener(e -> {
-            controller.saveData();
+            MainController.saveData();
             System.exit(0);
         });
-        newPet.addActionListener(e -> controller.createNewPet());
-        deletePet.addActionListener(e -> controller.removePet(pet));
-        saveData.addActionListener(e -> controller.saveData());
+        newPet.addActionListener(e -> MainController.createNewPet());
+        deletePet.addActionListener(e -> MainController.removePet(petController.getPet()));
+        saveData.addActionListener(e -> MainController.saveData());
     }
 
     public void update() {
-        age.setText("Age: " + String.valueOf(pet.getAge()));
-        health.setText("Health: " + String.valueOf(pet.getHealth()));
-        food.setText("Food: " + String.valueOf(pet.getFood()));
+        age.setText("Age: " + String.valueOf(petController.getPet().getAge()));
+        health.setText("Health: " + String.valueOf(petController.getPet().getHealth()));
+        food.setText("Food: " + String.valueOf(petController.getPet().getFood()));
     }
 
     public void showGui() {

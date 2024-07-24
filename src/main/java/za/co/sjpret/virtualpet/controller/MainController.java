@@ -1,19 +1,19 @@
 package za.co.sjpret.virtualpet.controller;
 
-import za.co.sjpret.virtualpet.notification.WindowsNotification;
-import za.co.sjpret.virtualpet.gui.MainGui;
 import za.co.sjpret.virtualpet.pet.Pet;
-import za.co.sjpret.virtualpet.thread.FoodThread;
+import za.co.sjpret.virtualpet.thread.InstanceManager;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Make Controller more usable
-public class Controller {
-    private final List<Pet> pets = new ArrayList<>();
+//TODO Add interfaces for future improvements
 
-    public Controller() {
+public class MainController {
+    private static final List<Pet> pets = new ArrayList<>();
+
+    public MainController() {
+        new InstanceManager();
         File file = new File("data.pet");
         if (file.exists()) {
             loadData();
@@ -22,14 +22,11 @@ public class Controller {
         }
     }
 
-    private void initialise(Pet pet) {
-        MainGui mainGui = new MainGui(pet, this);
-        new FoodThread(pet, mainGui);
-        WindowsNotification windowsNotification = new WindowsNotification(mainGui, pet.getName());
-        windowsNotification.showNotification("Use the tray icon to access your pet at any time.");
+    private static void initialise(Pet pet) {
+        new PetController(pet);
     }
 
-    public void createNewPet() {
+    public static void createNewPet() {
         Pet pet;
         try {
             pet = new Pet();
@@ -44,13 +41,13 @@ public class Controller {
         initialise(pet);
     }
 
-    public void removePet(Pet pet) {
+    public static void removePet(Pet pet) {
         pets.remove(pet);
         pet.decrementHealth((byte)100);
         pet.decrementFood((byte)100);
     }
 
-    public void loadData() {
+    public static void loadData() {
         try (ObjectInputStream objStream = new ObjectInputStream(new FileInputStream("data.pet"))) {
             while (true) {
                 try {
@@ -58,7 +55,7 @@ public class Controller {
                     pets.add(pet);
                     initialise(pet);
                 } catch (EOFException e) {
-                    break; // End of file reached
+                    break;
                 }
             }
 
@@ -67,7 +64,7 @@ public class Controller {
         }
     }
 
-    public void saveData() {
+    public static void saveData() {
         if (!pets.isEmpty()) {
             try (ObjectOutputStream objStream = new ObjectOutputStream(new FileOutputStream("data.pet"))) {
                 for (Pet pet : pets) {
