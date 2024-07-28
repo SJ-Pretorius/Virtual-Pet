@@ -1,5 +1,7 @@
 package za.co.sjpret.virtualpet.pet;
 
+import za.co.sjpret.virtualpet.controller.PetController;
+
 import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,6 +15,7 @@ public class Pet implements Serializable {
     private short age;
     private byte health;
     private byte food;
+    private boolean dead;
 
     public Pet() {
         name = setName();
@@ -20,7 +23,7 @@ public class Pet implements Serializable {
         age = 0;
         health = 100;
         food = 100;
-
+        dead = false;
     }
 
     private String setName() {
@@ -70,10 +73,10 @@ public class Pet implements Serializable {
         }
     }
 
-    //TODO Pet Death Logic
     public void decrementHealth(byte health) {
         if (this.health - health < 0) {
             this.health = 0;
+            dead = true;
         } else {
             this.health -= health;
         }
@@ -84,10 +87,12 @@ public class Pet implements Serializable {
     }
 
     public void incrementFood(byte food) {
-        if (this.food + food > 100) {
-            this.food = 100;
-        } else {
-            this.food += food;
+        if (!dead) {
+            if (this.food + food > 100) {
+                this.food = 100;
+            } else {
+                this.food += food;
+            }
         }
     }
 
@@ -99,5 +104,9 @@ public class Pet implements Serializable {
         } else {
             this.food -= food;
         }
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }

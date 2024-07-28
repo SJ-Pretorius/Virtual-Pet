@@ -24,6 +24,7 @@ public class MainGui {
     private JLabel age;
     private JLabel health;
     private JLabel food;
+    private JLabel animalStatus;
     private final PetController petController;
 
     public MainGui(PetController petController) {
@@ -54,18 +55,24 @@ public class MainGui {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(400, 400);
         frame.setResizable(false);
-        frame.setTitle("Virtual Pet");
+        frame.setTitle("Virtual Pet: " + petController.getPet().getName());
         frame.setLocationRelativeTo(null);
         update();
         frame.setVisible(true);
         credits.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Created by SJ Pretorius", "Credits", JOptionPane.PLAIN_MESSAGE));
-        feed.addActionListener(e -> petController.getPet().incrementFood((byte) 10));
+        feed.addActionListener(e -> {
+            petController.getPet().incrementFood((byte) 10);
+            update();
+        });
         exit.addActionListener(e -> {
             MainController.saveData();
             System.exit(0);
         });
         newPet.addActionListener(e -> MainController.createNewPet());
-        deletePet.addActionListener(e -> MainController.removePet(petController.getPet()));
+        deletePet.addActionListener(e -> {
+            MainController.removePet(petController.getPet());
+            update();
+        });
         saveData.addActionListener(e -> MainController.saveData());
     }
 
@@ -73,10 +80,24 @@ public class MainGui {
         age.setText("Age: " + String.valueOf(petController.getPet().getAge()));
         health.setText("Health: " + String.valueOf(petController.getPet().getHealth()));
         food.setText("Food: " + String.valueOf(petController.getPet().getFood()));
+        if (petController.getPet().isDead()) {
+            animalStatus.setText("Animal Status: Dead");
+        } else if (petController.getPet().getFood() == 0) {
+            animalStatus.setText("Animal Status: Starved");
+        } else if (petController.getPet().getFood() <= 30) {
+            animalStatus.setText("Animal Status: Hungry");
+        } else if (petController.getPet().getFood() > 30) {
+            animalStatus.setText("Animal Status: Healthy");
+        }
     }
 
     public void showGui() {
         frame.setVisible(true);
+    }
+
+    //TODO Frame dispose?
+    public void dispose() {
+        frame.dispose();
     }
 
     {
@@ -134,10 +155,10 @@ public class MainGui {
         exit = new JButton();
         exit.setText("Save and Exit");
         panel4.add(exit, BorderLayout.EAST);
-        final JLabel label2 = new JLabel();
-        label2.setHorizontalAlignment(0);
-        label2.setText("Status: <Animal Status>");
-        panel4.add(label2, BorderLayout.CENTER);
+        animalStatus = new JLabel();
+        animalStatus.setHorizontalAlignment(0);
+        animalStatus.setText("Status: <Animal Status>");
+        panel4.add(animalStatus, BorderLayout.CENTER);
     }
 
     /**

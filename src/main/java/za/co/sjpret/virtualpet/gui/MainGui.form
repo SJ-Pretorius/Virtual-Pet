@@ -97,7 +97,7 @@
                   <text value="Save and Exit"/>
                 </properties>
               </component>
-              <component id="3d3da" class="javax.swing.JLabel">
+              <component id="3d3da" class="javax.swing.JLabel" binding="animalStatus">
                 <constraints border-constraint="Center"/>
                 <properties>
                   <horizontalAlignment value="0"/>
