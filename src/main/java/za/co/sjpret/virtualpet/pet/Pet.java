@@ -70,6 +70,7 @@ public class Pet implements Serializable {
             this.health = 100;
         } else {
             this.health += health;
+            System.out.println("Pet " + name + "'s health increased by " + health + ". (Current: " + getHealth()  + ")");
         }
     }
 
@@ -77,8 +78,10 @@ public class Pet implements Serializable {
         if (this.health - health < 0) {
             this.health = 0;
             dead = true;
+            System.out.println("Pet " + name + " is now declared dead.");
         } else {
             this.health -= health;
+            System.out.println("Pet " + name + "'s health decreased by " + health + ". (Current: " + getHealth()  + ")");
         }
     }
 
@@ -90,8 +93,10 @@ public class Pet implements Serializable {
         if (!dead) {
             if (this.food + food > 100) {
                 this.food = 100;
+                System.out.println("Pet " + name + "'s food is saturated");
             } else {
                 this.food += food;
+                System.out.println("Pet " + name + "'s food incremented by " + food + ". (Current: " + getFood()  + ")");
             }
         }
     }
@@ -99,10 +104,13 @@ public class Pet implements Serializable {
     public void decrementFood(byte food) {
         if (this.food == 0) {
             decrementHealth((byte) 1);
+            System.out.println("Pet " + name + "'s food is taking health damage due to being starved.");
         } else if (this.food - food < 0) {
             this.food = 0;
+            System.out.println("Pet " + name + "'s food is starved.");
         } else {
             this.food -= food;
+            System.out.println("Pet " + name + "'s food decreased by " + food + ". (Current: " + getFood()  + ")");
         }
     }
 

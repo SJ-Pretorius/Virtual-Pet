@@ -14,18 +14,14 @@ public class FoodThread extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!petController.getPet().isDead()) {
                 petController.getPet().decrementFood((byte) 1);
                 petController.getMainGui().update();
-                if (petController.getPet().isDead()) {
-                    MainController.removePet(petController.getPet());
-                    interrupt();
-                }
                 sleep(1000);
             }
+            MainController.removePet(petController.getPet());
         } catch (InterruptedException e) {
             System.err.println("Food Thread has been interrupted.");
         }
-
     }
 }
