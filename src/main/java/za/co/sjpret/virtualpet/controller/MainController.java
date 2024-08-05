@@ -43,9 +43,6 @@ public class MainController {
 
     public static void removePet(Pet pet) {
         pets.remove(pet);
-        //TODO Better kill method, make a kill method in Pet instead of calling health and food
-        pet.decrementHealth((byte)100);
-        pet.decrementFood((byte)100);
     }
 
     public static void loadData() {

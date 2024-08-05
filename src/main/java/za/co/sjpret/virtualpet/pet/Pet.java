@@ -1,6 +1,6 @@
 package za.co.sjpret.virtualpet.pet;
 
-import za.co.sjpret.virtualpet.controller.PetController;
+import za.co.sjpret.virtualpet.controller.MainController;
 
 import javax.swing.*;
 import java.io.Serial;
@@ -66,7 +66,7 @@ public class Pet implements Serializable {
 
     //TODO Increment Health???
     public void incrementHealth(byte health) {
-        if (this.health + health > 100) {
+        if (this.health + health >= 100) {
             this.health = 100;
         } else {
             this.health += health;
@@ -75,10 +75,9 @@ public class Pet implements Serializable {
     }
 
     public void decrementHealth(byte health) {
-        if (this.health - health < 0) {
+        if (this.health - health <= 0) {
             this.health = 0;
-            dead = true;
-            System.out.println("Pet " + name + " is now declared dead.");
+            kill();
         } else {
             this.health -= health;
             System.out.println("Pet " + name + "'s health decreased by " + health + ". (Current: " + getHealth()  + ")");
@@ -91,7 +90,7 @@ public class Pet implements Serializable {
 
     public void incrementFood(byte food) {
         if (!dead) {
-            if (this.food + food > 100) {
+            if (this.food + food >= 100) {
                 this.food = 100;
                 System.out.println("Pet " + name + "'s food is saturated");
             } else {
@@ -103,8 +102,8 @@ public class Pet implements Serializable {
 
     public void decrementFood(byte food) {
         if (this.food == 0) {
+            System.out.println("Pet " + name + "'s is taking health damage due to being starved.");
             decrementHealth((byte) 1);
-            System.out.println("Pet " + name + "'s food is taking health damage due to being starved.");
         } else if (this.food - food < 0) {
             this.food = 0;
             System.out.println("Pet " + name + "'s food is starved.");
@@ -116,5 +115,11 @@ public class Pet implements Serializable {
 
     public boolean isDead() {
         return dead;
+    }
+
+    public void kill() {
+        dead = true;
+        MainController.removePet(this);
+        System.out.println("Pet " + name + " is now declared dead.");
     }
 }

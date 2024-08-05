@@ -1,6 +1,5 @@
 package za.co.sjpret.virtualpet.thread;
 
-import za.co.sjpret.virtualpet.controller.MainController;
 import za.co.sjpret.virtualpet.controller.PetController;
 
 public class FoodThread extends Thread {
@@ -16,10 +15,17 @@ public class FoodThread extends Thread {
         try {
             while (!petController.getPet().isDead()) {
                 petController.getPet().decrementFood((byte) 1);
+                if (petController.getPet().getFood() == 0) {
+                    petController.getMainGui().setAnimalStatus("Animal Status: Starved");
+                } else if (petController.getPet().getFood() <= 30) {
+                    petController.getMainGui().setAnimalStatus("Animal Status: Hungry");
+                } else if (petController.getPet().getFood() > 30) {
+                    petController.getMainGui().setAnimalStatus("Animal Status: Healthy");
+                }
                 petController.getMainGui().update();
-                sleep(1000);
+                sleep(10);
             }
-            MainController.removePet(petController.getPet());
+            petController.getMainGui().setAnimalStatus("Animal Status: Dead");
         } catch (InterruptedException e) {
             System.err.println("Food Thread has been interrupted.");
         }
