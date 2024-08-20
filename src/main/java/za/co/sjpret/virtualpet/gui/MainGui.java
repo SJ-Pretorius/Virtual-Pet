@@ -90,8 +90,8 @@ public class MainGui {
         frame.setVisible(true);
     }
 
-    //TODO Frame dispose?
-    public void dispose() {
+    //TODO Frame disposeGUI?
+    public void disposeGUI() {
         frame.dispose();
     }
 
