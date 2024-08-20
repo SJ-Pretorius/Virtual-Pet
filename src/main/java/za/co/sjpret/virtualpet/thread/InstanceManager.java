@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class InstanceManager extends Thread {
+    private static final int PORT = 9999;
 
     public InstanceManager() {
         start();
@@ -11,7 +12,7 @@ public class InstanceManager extends Thread {
 
     @Override
     public void run() {
-        try (ServerSocket ignored = new ServerSocket(9999)) {
+        try (ServerSocket ignored = new ServerSocket(PORT)) {
             System.out.println("Application is running.");
             synchronized (this) {
                 wait();
