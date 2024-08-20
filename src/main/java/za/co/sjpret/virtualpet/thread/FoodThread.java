@@ -13,19 +13,20 @@ public class FoodThread extends Thread {
     @Override
     public void run() {
         try {
-            while (!petController.getPet().isDead()) {
-                petController.getPet().decrementFood((byte) 1);
-                if (petController.getPet().getFood() == 0) {
-                    petController.getMainGui().setAnimalStatus("Animal Status: Starved");
-                } else if (petController.getPet().getFood() <= 30) {
-                    petController.getMainGui().setAnimalStatus("Animal Status: Hungry");
-                } else if (petController.getPet().getFood() > 30) {
-                    petController.getMainGui().setAnimalStatus("Animal Status: Healthy");
+            while (!petController.accessPet().isDead()) {
+                petController.accessPet().decrementFood((byte) 1);
+                byte food = petController.accessPet().getFood();
+                if (food == 0) {
+                    petController.accessMainGui().setAnimalStatus("Animal Status: Starved");
+                } else if (food <= 30) {
+                    petController.accessMainGui().setAnimalStatus("Animal Status: Hungry");
+                } else {
+                    petController.accessMainGui().setAnimalStatus("Animal Status: Healthy");
                 }
-                petController.getMainGui().update();
+                petController.accessMainGui().update();
                 sleep(10);
             }
-            petController.getMainGui().setAnimalStatus("Animal Status: Dead");
+            petController.accessMainGui().setAnimalStatus("Animal Status: Dead");
         } catch (InterruptedException e) {
             System.err.println("Food Thread has been interrupted.");
         }

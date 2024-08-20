@@ -12,7 +12,7 @@ public class WindowsNotification {
     public WindowsNotification(PetController petController) {
         this.petController = petController;
         if (SystemTray.isSupported()) {
-            setupTray(petController.getPet().getName());
+            setupTray(petController.accessPet().getName());
         } else {
             System.err.println("System tray not supported!");
         }
@@ -26,7 +26,7 @@ public class WindowsNotification {
             trayIcon.setImageAutoSize(true);
             trayIcon.setToolTip("Virtual Pet: " + petName);
             tray.add(trayIcon);
-            trayIcon.addActionListener(e -> petController.getMainGui().showGui());
+            trayIcon.addActionListener(e -> petController.accessMainGui().showGui());
             showNotification("Use the tray icon to access your pet at any time.");
         } catch (AWTException e) {
             e.printStackTrace();

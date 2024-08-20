@@ -17,15 +17,15 @@ public class PetController {
         new FoodThread(this);
     }
 
-    public Pet getPet() {
+    public Pet accessPet() {
         return pet;
     }
 
-    public MainGui getMainGui() {
+    public MainGui accessMainGui() {
         return mainGui;
     }
 
-    public WindowsNotification getWindowsNotification() {
+    public WindowsNotification accessWindowsNotification() {
         return windowsNotification;
     }
 }
