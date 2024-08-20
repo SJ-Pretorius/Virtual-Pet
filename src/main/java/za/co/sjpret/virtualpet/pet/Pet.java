@@ -102,7 +102,7 @@ public class Pet implements Serializable {
 
     public void decrementFood(byte food) {
         if (this.food == 0) {
-            System.out.println("Pet " + name + "'s is taking health damage due to being starved.");
+            System.out.println("Pet " + name + " is taking health damage due to being starved.");
             decrementHealth((byte) 1);
         } else if (this.food - food < 0) {
             this.food = 0;
