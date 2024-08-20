@@ -10,11 +10,12 @@ import java.util.List;
 //TODO Add interfaces for future improvements
 
 public class MainController {
+    private static final String DATA_FILE_PATH = "data.pet";
     private static final List<Pet> pets = new ArrayList<>();
 
     public MainController() {
         new InstanceManager();
-        File file = new File("data.pet");
+        File file = new File(DATA_FILE_PATH);
         if (file.exists()) {
             loadData();
         } else {
@@ -46,7 +47,7 @@ public class MainController {
     }
 
     public static void loadData() {
-        try (ObjectInputStream objStream = new ObjectInputStream(new FileInputStream("data.pet"))) {
+        try (ObjectInputStream objStream = new ObjectInputStream(new FileInputStream(DATA_FILE_PATH))) {
             while (true) {
                 try {
                     Pet pet = (Pet) objStream.readObject();
@@ -64,7 +65,7 @@ public class MainController {
 
     public static void saveData() {
         if (!pets.isEmpty()) {
-            try (ObjectOutputStream objStream = new ObjectOutputStream(new FileOutputStream("data.pet"))) {
+            try (ObjectOutputStream objStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE_PATH))) {
                 for (Pet pet : pets) {
                     objStream.writeObject(pet);
                 }
