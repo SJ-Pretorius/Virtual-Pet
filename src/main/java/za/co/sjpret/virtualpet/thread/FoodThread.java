@@ -2,7 +2,9 @@ package za.co.sjpret.virtualpet.thread;
 
 import za.co.sjpret.virtualpet.controller.PetController;
 
-public class FoodThread extends Thread {
+//TODO: Implement a way to stop the thread and everything when the pet dies
+public class FoodThread extends Thread implements Runnable{
+    private static final int TIMER = 10;
     private final PetController petController;
 
     public FoodThread(PetController petController) {
@@ -13,9 +15,10 @@ public class FoodThread extends Thread {
     @Override
     public void run() {
         try {
+            byte food;
             while (!petController.accessPet().isDead()) {
                 petController.accessPet().decrementFood((byte) 1);
-                byte food = petController.accessPet().getFood();
+                food = petController.accessPet().getFood();
                 if (food == 0) {
                     petController.accessMainGui().setAnimalStatus("Animal Status: Starved");
                 } else if (food <= 30) {
@@ -24,7 +27,7 @@ public class FoodThread extends Thread {
                     petController.accessMainGui().setAnimalStatus("Animal Status: Healthy");
                 }
                 petController.accessMainGui().update();
-                sleep(10);
+                sleep(TIMER);
             }
             petController.accessMainGui().setAnimalStatus("Animal Status: Dead");
         } catch (InterruptedException e) {
