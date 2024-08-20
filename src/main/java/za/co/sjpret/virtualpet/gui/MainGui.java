@@ -49,19 +49,19 @@ public class MainGui {
         menuBar.add(data);
         menuBar.add(about);
         menuBarPanel.add(menuBar);
-        name.setText("Name: " + petController.getPet().getName());
+        name.setText("Name: " + petController.accessPet().getName());
         frame = new JFrame();
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(400, 400);
         frame.setResizable(false);
-        frame.setTitle("Virtual Pet: " + petController.getPet().getName());
+        frame.setTitle("Virtual Pet: " + petController.accessPet().getName());
         frame.setLocationRelativeTo(null);
         update();
         frame.setVisible(true);
         credits.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Created by SJ Pretorius", "Credits", JOptionPane.PLAIN_MESSAGE));
         feed.addActionListener(e -> {
-            petController.getPet().incrementFood((byte) 10);
+            petController.accessPet().incrementFood((byte) 10);
             update();
         });
         exit.addActionListener(e -> {
@@ -70,16 +70,16 @@ public class MainGui {
         });
         newPet.addActionListener(e -> MainController.createNewPet());
         deletePet.addActionListener(e -> {
-            petController.getPet().kill();
+            petController.accessPet().kill();
             update();
         });
         saveData.addActionListener(e -> MainController.saveData());
     }
 
     public void update() {
-        age.setText("Age: " + String.valueOf(petController.getPet().getAge()));
-        health.setText("Health: " + String.valueOf(petController.getPet().getHealth()));
-        food.setText("Food: " + String.valueOf(petController.getPet().getFood()));
+        age.setText("Age: " + String.valueOf(petController.accessPet().getAge()));
+        health.setText("Health: " + String.valueOf(petController.accessPet().getHealth()));
+        food.setText("Food: " + String.valueOf(petController.accessPet().getFood()));
     }
 
     public void setAnimalStatus(String text) {
