@@ -3,8 +3,10 @@ package za.co.sjpret.virtualpet.thread;
 import za.co.sjpret.virtualpet.controller.PetController;
 
 //TODO: Implement a way to stop the thread and everything when the pet dies
+//TODO: Move Animal Status to the Gui Class
+
 public class FoodThread extends Thread implements Runnable{
-    private static final int TIMER = 10;
+    private static final int TIMER = 1000;
     private final PetController petController;
 
     public FoodThread(PetController petController) {

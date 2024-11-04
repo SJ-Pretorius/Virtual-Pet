@@ -15,7 +15,7 @@ import java.awt.*;
 //TODO Clean this up
 
 public class MainGui {
-    private final JFrame frame;
+    private JFrame frame;
     private JPanel mainPanel;
     private JButton feed;
     private JButton exit;
@@ -29,6 +29,10 @@ public class MainGui {
 
     public MainGui(PetController petController) {
         this.petController = petController;
+        setupGUI();
+    }
+
+    public void setupGUI() {
         JMenuBar menuBar = new JMenuBar();
         JMenu about = new JMenu("About");
         JMenu manage = new JMenu("Manage");
@@ -59,6 +63,8 @@ public class MainGui {
         frame.setLocationRelativeTo(null);
         update();
         frame.setVisible(true);
+
+        //ActionListeners
         credits.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Created by SJ Pretorius", "Credits", JOptionPane.PLAIN_MESSAGE));
         feed.addActionListener(e -> {
             petController.accessPet().incrementFood((byte) 10);
