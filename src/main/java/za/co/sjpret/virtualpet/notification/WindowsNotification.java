@@ -27,7 +27,6 @@ public class WindowsNotification {
             trayIcon.setToolTip("Virtual Pet: " + petName);
             tray.add(trayIcon);
             trayIcon.addActionListener(e -> petController.accessMainGui().showGui());
-            showNotification("Use the tray icon to access your pet at any time.");
         } catch (AWTException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,8 @@ import za.co.sjpret.virtualpet.controller.PetController;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 //TODO Picture of a kitten
 //TODO Windows Notification if window is closed or option for save and exit or minimise.
@@ -56,7 +58,7 @@ public class MainGui {
         name.setText("Name: " + petController.accessPet().getName());
         frame = new JFrame();
         frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(400, 400);
         frame.setResizable(false);
         frame.setTitle("Virtual Pet: " + petController.accessPet().getName());
@@ -65,6 +67,12 @@ public class MainGui {
         frame.setVisible(true);
 
         //ActionListeners
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                windowCloseMessage();
+            }
+        });
         credits.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Created by SJ Pretorius", "Credits", JOptionPane.PLAIN_MESSAGE));
         feed.addActionListener(e -> {
             petController.accessPet().incrementFood((byte) 10);
@@ -96,6 +104,29 @@ public class MainGui {
     //TODO Frame disposeGUI?
     public void disposeGUI() {
         frame.dispose();
+    }
+
+    private void windowCloseMessage() {
+        Object[] options = {"Minimise", "Save and Exit"};
+
+        int option = JOptionPane.showOptionDialog(
+                frame,
+                "Would you like to save and exit or minimise?",
+                "Virtual Pet",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]  // Default selection
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            frame.setVisible(false);
+            petController.accessWindowsNotification().showNotification("Use the tray icon to access your pet at any time.");
+        } else if (option == JOptionPane.NO_OPTION) {
+            MainController.saveData();
+            System.exit(0);
+        }
     }
 
     {
