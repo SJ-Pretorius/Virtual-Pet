@@ -32,7 +32,7 @@ public class MainGui {
         setupGUI();
     }
 
-    public void setupGUI() {
+    private void setupGUI() {
         JMenuBar menuBar = new JMenuBar();
         JMenu about = new JMenu("About");
         JMenu manage = new JMenu("Manage");
@@ -86,10 +86,7 @@ public class MainGui {
         age.setText("Age: " + String.valueOf(petController.accessPet().getAge()));
         health.setText("Health: " + String.valueOf(petController.accessPet().getHealth()));
         food.setText("Food: " + String.valueOf(petController.accessPet().getFood()));
-    }
-
-    public void setAnimalStatus(String text) {
-        animalStatus.setText(text);
+        animalStatus.setText("Status: " + petController.accessPet().getAnimalStatus());
     }
 
     public void showGui() {

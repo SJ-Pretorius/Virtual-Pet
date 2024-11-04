@@ -20,18 +20,9 @@ public class FoodThread extends Thread implements Runnable{
             byte food;
             while (!petController.accessPet().isDead()) {
                 petController.accessPet().decrementFood((byte) 1);
-                food = petController.accessPet().getFood();
-                if (food == 0) {
-                    petController.accessMainGui().setAnimalStatus("Animal Status: Starved");
-                } else if (food <= 30) {
-                    petController.accessMainGui().setAnimalStatus("Animal Status: Hungry");
-                } else {
-                    petController.accessMainGui().setAnimalStatus("Animal Status: Healthy");
-                }
                 petController.accessMainGui().update();
                 sleep(TIMER);
             }
-            petController.accessMainGui().setAnimalStatus("Animal Status: Dead");
         } catch (InterruptedException e) {
             System.err.println("Food Thread has been interrupted.");
         }

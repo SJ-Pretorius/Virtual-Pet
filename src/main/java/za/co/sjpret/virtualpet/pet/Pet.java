@@ -16,6 +16,14 @@ public class Pet implements Serializable {
     private byte health;
     private byte food;
     private boolean dead;
+    private AnimalStatus animalStatus;
+
+    enum AnimalStatus {
+        Healthy,
+        Hungry,
+        Starved,
+        Dead,
+    }
 
     public Pet() {
         name = setName();
@@ -97,6 +105,7 @@ public class Pet implements Serializable {
                 this.food += food;
                 System.out.println("Pet " + name + "'s food incremented by " + food + ". (Current: " + getFood()  + ")");
             }
+            updateAnimalStatus();
         }
     }
 
@@ -111,6 +120,7 @@ public class Pet implements Serializable {
             this.food -= food;
             System.out.println("Pet " + name + "'s food decreased by " + food + ". (Current: " + getFood()  + ")");
         }
+        updateAnimalStatus();
     }
 
     public boolean isDead() {
@@ -119,7 +129,22 @@ public class Pet implements Serializable {
 
     public void kill() {
         dead = true;
+        animalStatus = AnimalStatus.Dead;
         MainController.removePet(this);
         System.out.println("Pet " + name + " is now declared dead.");
+    }
+
+    public void updateAnimalStatus() {
+        if (food == 0) {
+            animalStatus = AnimalStatus.Starved;
+        } else if (food <= 30) {
+            animalStatus = AnimalStatus.Hungry;
+        } else {
+            animalStatus = AnimalStatus.Healthy;
+        }
+    }
+
+    public AnimalStatus getAnimalStatus() {
+        return animalStatus;
     }
 }
